@@ -1,27 +1,27 @@
 package Modelo;
 
-public class ChanchoVolador {
-    private Accion volar;
+import java.util.List;
 
-    //constructor
+public class ChanchoVolador extends Animal{
+    private List<Accion> habilidades;
 
-
-
-    //metodos
-
-    public int calcularEnergia(){
-        return 1;
-
-
-    }
-
-    public void aletear(int veces){
-
+    public ChanchoVolador(List<Accion> habilidadesAnimal) {
+        super(habilidadesAnimal);
     }
 
 
+    @Override
+    public void usarHabilidad(int habilidad, int veces) {
+        habilidades.get(habilidad).accion(veces);
 
+    }
 
-
-    
+    @Override
+    public int calcularEnergia() {
+        int energia=0;
+        for (Accion habilidad: habilidades){
+            energia += habilidad.calcularEnergia();
+        }
+        return energia;
+    }
 }

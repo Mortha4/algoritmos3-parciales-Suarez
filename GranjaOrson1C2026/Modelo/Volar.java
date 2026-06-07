@@ -1,18 +1,20 @@
 package Modelo;
 
-public class Volar implements Accion {
-
-    private int costo;
-
-    //constructor
+public class Volar extends Accion {
 
 
+    public Volar(int costo, int cantidadMovimientos) {
+        super(costo, cantidadMovimientos);
+    }
 
-    //metodos
-
-    public void aletear(int veces){
+    @Override
+    public void accion(int veces) {
+        movimientoDisponible -= veces;
 
     }
 
-
+    @Override
+    public int calcularEnergia() {
+        return costo * movimientoDisponible ;
+    }
 }

@@ -12,7 +12,7 @@ create participant "habilidadVolar : Volar" as volarChancho
 chancho1 -> volarChancho : new(8,10)
 
    
-main -> chancho1 : aletear(2)
+main -> chancho1 : usarHabilidad(volar,2)
 activate chancho1
 chancho1 -> volarChancho: accion(2)
 activate volarChancho
