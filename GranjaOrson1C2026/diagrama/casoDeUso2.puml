@@ -1,0 +1,81 @@
+@startuml
+
+'calcular energia de chancho volador despues de 2 aleteos'
+
+
+actor main
+activate main
+
+create participant "unChancho:ChanchoVolador" as chancho
+main -> chancho : new()
+create participant "habilidadVolar : Volar" as volarChancho
+chancho -> volarChancho : new(8,10)
+
+create participant "unGanso : Ganso" as ganso
+main -> ganso : new()
+create participant "habilidadVolar2 : Volar" as volarGanso
+ganso -> volarGanso : new(4,3)
+create participant "habilidadNadar : Nadar" as nadarGanso
+ganso -> nadarGanso : new(2,4)
+
+create participant "unPato : Pato" as pato 
+main -> pato : new()
+create participant "habilidadNadar2 :Nadar" as nadarPato 
+pato -> nadarPato : new(5,3)
+
+create participant "animales: List<Animal>" as animales
+main -> animales : new()
+activate animales
+main -> animales : add(unChancho)
+main ->animales : add(unGanso)
+main -> animales : add(unPato)
+deactivate animales
+
+create participant "unaGranja : GranjaDeOrson" as granja 
+main -> granja : new(animales)
+main -> granja : calcularEnergia()
+activate granja 
+
+granja -> chancho : calcularEnergia()
+activate chancho
+chancho -> volarChancho : calcularEnergia()
+activate volarChancho
+volarChancho --> chancho : energiaChancho
+deactivate volarChancho
+chancho --> granja : energiaChancho
+deactivate chancho
+
+granja -> ganso : calcularEnergia()
+activate ganso
+ganso -> volarGanso : calcularEnergia()
+activate volarGanso
+volarGanso --> ganso : energiaVuelo
+deactivate volarGanso
+ganso -> nadarGanso : calcularEnergia()
+activate nadarGanso
+nadarGanso --> ganso : energiaNadar
+deactivate nadarGanso
+ganso --> granja : energiaNadar + energiaVuelo = energiaGanso
+deactivate ganso
+
+granja -> pato : calcularEnergia()
+activate pato  
+pato -> nadarPato : calcularEnergia()
+activate nadarPato
+nadarPato --> pato : energiaPato
+deactivate nadarPato
+pato --> granja : energiaPato
+deactivate pato
+
+granja --> main : (energiaChancho + energiaGanso + energiaPato) + 10%
+deactivate main
+
+
+
+
+
+
+
+
+
+@enduml

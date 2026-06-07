@@ -1,0 +1,33 @@
+@startuml
+
+'calcular energia de chancho volador despues de 2 aleteos'
+
+
+actor main
+activate main
+
+create participant "unChancho : ChanchoVolador" as chancho1
+main -> chancho1 : new()
+create participant "habilidadVolar : Volar" as volarChancho
+chancho1 -> volarChancho : new(8,10)
+
+   
+main -> chancho1 : aletear(2)
+activate chancho1
+chancho1 -> volarChancho: accion(2)
+activate volarChancho
+main -> chancho1 : calcularEnergia()
+chancho1 -> volarChancho : calcularEnergia()
+volarChancho --> chancho1 : movimientoDisponible * costo
+deactivate volarChancho
+chancho1 --> main : movimientoDisponible * costo
+deactivate chancho1
+deactivate main
+
+
+
+
+
+
+
+@enduml

@@ -1,0 +1,77 @@
+@startuml
+
+
+class GranjaDeOrson{
+    -animales : List<Animal>
+
+    +calcularEnergia()
+
+}
+
+
+class Animal {
+    #habilidades : List<Accion>
+
+    +usarHabilidad(unaHabilidad: Accion ,veces:int)
+    +calcularEnergia() : int
+
+}
+
+class Pato{
+    +usarHabilidad(unaHabilidad: Accion ,veces:int)
+    +calcularEnergia() : int
+
+}
+
+class Ganso{
+    +usarHabilidad(unaHabilidad: Accion ,veces:int)
+    +calcularEnergia() : int
+
+}
+
+class ChanchoVolador{
+
+    +usarHabilidad(unaHabilidad: Accion ,veces:int)
+    +calcularEnergia() : int
+
+
+}
+
+interface Accion {
+    #costo :int
+    #movimientoDisponible : int
+
+    +accion(veces: int)
+    +calcularEnergia() : int
+}
+
+class Nadar {
+
+    +accion(veces: int)
+    +calcularEnergia() : int
+}
+
+class Volar {
+
+    +accion(veces: int)
+    +calcularEnergia() : int
+
+}
+
+Volar ..|> Accion 
+Nadar ..|> Accion
+
+GranjaDeOrson "1" --> "*" Animal
+ChanchoVolador --|> Animal
+Pato --|> Animal
+Ganso --|> Animal
+
+Animal "*" --> "*" Accion 
+
+
+
+
+
+
+
+@enduml
