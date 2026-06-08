@@ -3,30 +3,30 @@
 'calcular energia de chancho volador despues de 2 aleteos'
 
 
-actor main
-activate main
+actor test02
+activate test02
 
 create participant "unChancho:ChanchoVolador" as chancho
-main -> chancho : <<create>> ChanchoVolador()
+test02 -> chancho : <<create>> ChanchoVolador()
 create participant "habilidadVolar : Volar" as volarChancho
 chancho -> volarChancho : <<create>> Volar(costo=8,veces=10)
 
 create participant "unGanso : Ganso" as ganso
-main -> ganso : <<create>>Ganso()
+test02 -> ganso : <<create>>Ganso()
 create participant "habilidadVolar2 : Volar" as volarGanso
 ganso -> volarGanso : <<create>> Volar(costo=4,veces=3)
 create participant "habilidadNadar : Nadar" as nadarGanso
 ganso -> nadarGanso : <<create>> Nadar(costo=2,veces=4)
 
 create participant "unPato : Pato" as pato
-main -> pato : <<create>> Pato()
+test02 -> pato : <<create>> Pato()
 create participant "habilidadNadar2 :Nadar" as nadarPato
 pato -> nadarPato : <<create>> Nadar(costo=5,veces=3)
 
 
 create participant "unaGranja : GranjaDeOrson" as granja
-main -> granja : <<create>>GranjaDeOrson([unGanso,unPato,unChancho])
-main -> granja : calcularEnergia()
+test02 -> granja : <<create>>GranjaDeOrson([unGanso,unPato,unChancho])
+test02 -> granja : calcularEnergia()
 activate granja
 
 granja -> chancho : calcularEnergia()
@@ -60,8 +60,8 @@ deactivate nadarPato
 pato --> granja : energiaPato
 deactivate pato
 
-granja --> main : (energiaChancho + energiaGanso + energiaPato) + 10%
-deactivate main
+granja --> test02 : (energiaChancho + energiaGanso + energiaPato) + 10%
+deactivate test02
 
 
 
