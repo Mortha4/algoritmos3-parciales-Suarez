@@ -61,7 +61,7 @@ class Volar {
 Volar ..|> Accion 
 Nadar ..|> Accion
 
-GranjaDeOrson "1" --> "*" Animal
+GranjaDeOrson "1" o-- "*" Animal
 ChanchoVolador --|> Animal
 Pato --|> Animal
 Ganso --|> Animal

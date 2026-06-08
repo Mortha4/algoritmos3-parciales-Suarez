@@ -23,16 +23,9 @@ main -> pato : <<create>> Pato()
 create participant "habilidadNadar2 :Nadar" as nadarPato
 pato -> nadarPato : <<create>> Nadar(costo=5,veces=3)
 
-create participant "animales: List<Animal>" as animales
-main -> animales : <<create>> List<Animal>()
-activate animales
-main -> animales : add(unChancho)
-main ->animales : add(unGanso)
-main -> animales : add(unPato)
-deactivate animales
 
 create participant "unaGranja : GranjaDeOrson" as granja
-main -> granja : <<create>>GranjaDeOrson(animales)
+main -> granja : <<create>>GranjaDeOrson([unGanso,unPato,unChancho])
 main -> granja : calcularEnergia()
 activate granja
 
