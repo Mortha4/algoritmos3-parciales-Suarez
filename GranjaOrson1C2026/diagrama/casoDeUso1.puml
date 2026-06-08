@@ -3,26 +3,29 @@
 'calcular energia de chancho volador despues de 2 aleteos'
 
 
-actor main
-activate main
+actor test01
+activate test01
 
 create participant "unChancho : ChanchoVolador" as chancho1
-main -> chancho1 : new()
+test01 -> chancho1 : <<create>> ChanchoVolador()
 create participant "habilidadVolar : Volar" as volarChancho
-chancho1 -> volarChancho : new(8,10)
+activate chancho1
+chancho1 -> volarChancho : <<create>> Volar(costo = 8 , veces =10)
+deactivate chancho1
+
 
    
-main -> chancho1 : usarHabilidad(volar,2)
+test01 -> chancho1 : usarHabilidad(volar,2)
 activate chancho1
 chancho1 -> volarChancho: accion(2)
 activate volarChancho
-main -> chancho1 : calcularEnergia()
+test01 -> chancho1 : calcularEnergia()
 chancho1 -> volarChancho : calcularEnergia()
-volarChancho --> chancho1 : movimientoDisponible * costo
+volarChancho --> chancho1 : energiaChancho = movimientoDisponible * costo
 deactivate volarChancho
-chancho1 --> main : movimientoDisponible * costo
+chancho1 --> test01 : energiaChancho
 deactivate chancho1
-deactivate main
+deactivate test01
 
 
 

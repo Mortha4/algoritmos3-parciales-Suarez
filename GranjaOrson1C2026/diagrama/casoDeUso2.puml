@@ -7,34 +7,34 @@ actor main
 activate main
 
 create participant "unChancho:ChanchoVolador" as chancho
-main -> chancho : new()
+main -> chancho : <<create>> ChanchoVolador()
 create participant "habilidadVolar : Volar" as volarChancho
-chancho -> volarChancho : new(8,10)
+chancho -> volarChancho : <<create>> Volar(costo=8,veces=10)
 
 create participant "unGanso : Ganso" as ganso
-main -> ganso : new()
+main -> ganso : <<create>>Ganso()
 create participant "habilidadVolar2 : Volar" as volarGanso
-ganso -> volarGanso : new(4,3)
+ganso -> volarGanso : <<create>> Volar(costo=4,veces=3)
 create participant "habilidadNadar : Nadar" as nadarGanso
-ganso -> nadarGanso : new(2,4)
+ganso -> nadarGanso : <<create>> Nadar(costo=2,veces=4)
 
-create participant "unPato : Pato" as pato 
-main -> pato : new()
-create participant "habilidadNadar2 :Nadar" as nadarPato 
-pato -> nadarPato : new(5,3)
+create participant "unPato : Pato" as pato
+main -> pato : <<create>> Pato()
+create participant "habilidadNadar2 :Nadar" as nadarPato
+pato -> nadarPato : <<create>> Nadar(costo=5,veces=3)
 
 create participant "animales: List<Animal>" as animales
-main -> animales : new()
+main -> animales : <<create>> List<Animal>()
 activate animales
 main -> animales : add(unChancho)
 main ->animales : add(unGanso)
 main -> animales : add(unPato)
 deactivate animales
 
-create participant "unaGranja : GranjaDeOrson" as granja 
-main -> granja : new(animales)
+create participant "unaGranja : GranjaDeOrson" as granja
+main -> granja : <<create>>GranjaDeOrson(animales)
 main -> granja : calcularEnergia()
-activate granja 
+activate granja
 
 granja -> chancho : calcularEnergia()
 activate chancho
