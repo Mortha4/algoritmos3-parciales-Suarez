@@ -1,0 +1,59 @@
+@startuml  
+
+actor Test01
+activate Test01
+
+
+create participant "tarjetaTrabajador0 : TarjetaTrabajador" as tarjetaId1
+
+Test01 -> tarjetaId1 : <<create>>
+
+create participant "tarjetaTrabajador1 : TarjetaTrabajador" as tarjetaId2
+
+Test01 -> tarjetaId2 : <<create>>
+
+
+create participant "unUsuario : Usuario" as usuario
+
+
+Test01 -> usuario : <<create>> Usuario([tarjetaTrabajador0,tarjetaTrabajador1])
+Test01 -> usuario : Viajar(fecha , distancia)
+activate usuario 
+usuario -> tarjetaId1 : Viajar(fecha , distancia) 
+activate tarjetaId1 
+create participant "viaje0 : Viaje" as viaje
+tarjetaId1 -> viaje : <<create>> Viaje(fecha,distancia,costoPorViaje)
+deactivate tarjetaId1
+deactivate usuario
+
+Test01 -> usuario : Viajar(fecha , distancia)
+activate usuario
+usuario -> tarjetaId2 : Viajar(fecha , distancia) 
+activate tarjetaId2
+create participant "viaje1 : Viaje" as viaje1
+tarjetaId2 -> viaje1 : <<create>> Viaje(fecha,distancia,costoPorViaje)
+deactivate tarjetaId1
+deactivate usuario
+
+Test01 -> usuario : calcularTotalPagado()
+activate usuario
+
+
+usuario -> tarjetaId1 : calcularTotalPagado()
+activate tarjetaId1 
+tarjetaId1 -> viaje : calcularTotalPagado()
+activate viaje
+
+
+
+
+
+
+
+
+
+
+
+
+
+@enduml   

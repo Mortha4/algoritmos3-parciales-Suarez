@@ -1,0 +1,46 @@
+@startuml  
+
+class Usuario{
+
+    +calcularTotalPagado() : int
+}
+
+abstract class Sube{
+
+
+}
+
+class Viaje{
+    -fecha : String
+    -distancia : int
+
+    +Viaje(fecha :String , distancia : int ,costoPorViaje : int)
+    +calcularCosto() : int
+    +getDistancia() : int
+}
+
+class TarjetaTrabajador{
+    -id : String
+
+    +calcularTotalPagado() : int
+}
+
+class TarjetaExento{
+
+
+
+}
+
+
+Usuario "1" o-- "*" Sube
+
+Sube --|> TarjetaTrabajador
+Sube --|> TarjetaExento
+
+
+
+
+
+
+
+@enduml   
