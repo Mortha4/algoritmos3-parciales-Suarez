@@ -1,0 +1,107 @@
+@startuml
+
+class Flota{
+
+    +Flota(List<Nave>)
+    +calcularPuntaje() : int
+}
+
+
+
+class Acorazado{
+
+    +calcularPuntaje() :int 
+    +disparar()
+}
+
+class Corbeta {
+
+    +calcularPuntaje() :int 
+    +disparar()
+
+
+}
+
+class Destructor {
+
+
+    +Destructor()
+    +calcularPuntaje() :int 
+    +disparar()
+
+}
+
+abstract class Nave{
+
+    +calcularPuntaje() :int 
+    +disparar()
+}
+
+abstract class SistemaDeAtaque{
+    #cantidadProyectiles : int
+    #puntosPorProyectil : int
+
+    +calcularPuntaje() : int
+    +disparar()
+}
+
+class AtaqueAcorazado{
+
+    +AtaqueAcorazado(cantProyectil : int , puntosPorProyectil : int)
+    +calcularPuntaje() : int
+    +disparar() 
+
+}
+
+class AtaqueConMisiles{
+
+    +AtaqueConMisiles(cantProyectil : int , puntosPorProyectil : int)
+    +calcularPuntaje() : int
+    +disparar()
+
+}
+
+
+
+abstract class Escudo{
+
+    +calcularPuntaje() : int
+}
+
+class Ionico{
+    -unSistemaDeAtaque : SistemaDeAtaque
+
+    +Ionico(ataque :SistemaDeAtaque)
+    +calcularPuntaje() : int
+}
+
+class Fenix{
+    +calcularPuntaje() : int
+
+}
+
+class Simple{
+    +calcularPuntaje() : int
+
+
+
+}
+
+AtaqueAcorazado --|> SistemaDeAtaque
+AtaqueConMisiles --|> SistemaDeAtaque
+Escudo --|> Ionico
+Escudo --|> Fenix
+Escudo --|> Simple
+
+Destructor --|> Nave
+Corbeta --|> Nave
+Acorazado --|> Nave
+
+Nave -> SistemaDeAtaque
+Nave -> Escudo
+
+Flota "1" o-- "*" Nave
+
+
+
+@enduml

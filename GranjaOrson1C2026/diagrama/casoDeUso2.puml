@@ -9,66 +9,35 @@ activate test02
 create participant "unChancho:ChanchoVolador" as chancho
 test02 -> chancho : <<create>> ChanchoVolador()
 create participant "habilidadVolar : Volar" as volarChancho
-chancho -> volarChancho : <<create>> Volar(costo=8,veces=10)
+chancho -> volarChancho : <<create>> Volar(costo=8,acciones=10)
+
 
 create participant "unGanso : Ganso" as ganso
 test02 -> ganso : <<create>>Ganso()
 create participant "habilidadVolar2 : Volar" as volarGanso
-ganso -> volarGanso : <<create>> Volar(costo=4,veces=3)
+ganso -> volarGanso : <<create>> Volar(costo=4,acciones=3)
 create participant "habilidadNadar : Nadar" as nadarGanso
-ganso -> nadarGanso : <<create>> Nadar(costo=2,veces=4)
+ganso -> nadarGanso : <<create>> Nadar(costo=2,acciones=4)
+
+note right
+    el ganso tiene un arreglo de habilidades
+    
+    habilidades = [Volar ,Nadar]
+
+    cada habilidad tiene un costo por movimiento 
+    y una cantidad de movimientos
+end note
 
 create participant "unPato : Pato" as pato
 test02 -> pato : <<create>> Pato()
 create participant "habilidadNadar2 :Nadar" as nadarPato
-pato -> nadarPato : <<create>> Nadar(costo=5,veces=3)
+pato -> nadarPato : <<create>> Nadar(costo=5,acciones=3)
 
 
 create participant "unaGranja : GranjaDeOrson" as granja
 test02 -> granja : <<create>>GranjaDeOrson([unGanso,unPato,unChancho])
-test02 -> granja : calcularEnergia()
-activate granja
 
-granja -> chancho : calcularEnergia()
-activate chancho
-chancho -> volarChancho : calcularEnergia()
-activate volarChancho
-volarChancho --> chancho : energiaChancho
-deactivate volarChancho
-chancho --> granja : energiaChancho
-deactivate chancho
-
-granja -> ganso : calcularEnergia()
-activate ganso
-ganso -> volarGanso : calcularEnergia()
-activate volarGanso
-volarGanso --> ganso : energiaVuelo
-deactivate volarGanso
-ganso -> nadarGanso : calcularEnergia()
-activate nadarGanso
-nadarGanso --> ganso : energiaNadar
-deactivate nadarGanso
-ganso --> granja : energiaNadar + energiaVuelo = energiaGanso
-deactivate ganso
-
-granja -> pato : calcularEnergia()
-activate pato  
-pato -> nadarPato : calcularEnergia()
-activate nadarPato
-nadarPato --> pato : energiaPato
-deactivate nadarPato
-pato --> granja : energiaPato
-deactivate pato
-
-granja --> test02 : (energiaChancho + energiaGanso + energiaPato) + 10%
 deactivate test02
-
-
-
-
-
-
-
 
 
 @enduml

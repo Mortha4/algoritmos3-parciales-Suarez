@@ -2,15 +2,13 @@
 
 
 class GranjaDeOrson{
-    -animales : List<Animal>
 
-    +calcularEnergia()
+    +calcularEnergia() : int
 
 }
 
 
 abstract class Animal {
-    #habilidades : List<Accion>
 
     +usarHabilidad(unaHabilidad: Accion ,veces:int)
     +calcularEnergia() : int
@@ -37,7 +35,7 @@ class ChanchoVolador{
 
 }
 
-abstract class Accion {
+abstract class Habilidad {
     #costo :int
     #movimientoDisponible : int
 
@@ -58,15 +56,15 @@ class Volar {
 
 }
 
-Volar ..|> Accion 
-Nadar ..|> Accion
+Volar --|> Habilidad 
+Nadar --|> Habilidad
 
 GranjaDeOrson "1" o-- "*" Animal
 ChanchoVolador --|> Animal
 Pato --|> Animal
 Ganso --|> Animal
 
-Animal "*" --> "*" Accion 
+Animal "*" --> "*" Habilidad 
 
 
 

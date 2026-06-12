@@ -1,0 +1,51 @@
+@startuml   
+
+actor Test02
+activate Test02
+
+create participant "unaCorbeta :Corbeta" as corbeta
+Test02 -> corbeta : <<create>> Corbeta()
+create participant "unEscudoSimple: Simple" as escudoSimple
+activate corbeta
+corbeta -> escudoSimple : <<create>> Simple()
+create participant "ataqueMisiles :AtaqueConMisiles" as ataqueCorbeta
+corbeta -> ataqueCorbeta : <<create>> AtaqueConMisiles(cantidad=3 ,puntajePorUnidad=10)
+
+deactivate corbeta
+
+create participant "unDestructor : Destructor" as destructor
+Test02 -> destructor : <<create>> Destructor()
+
+activate destructor
+
+create participant "ataqueMisiles2 :AtaqueConMisiles" as ataqueDestructor
+
+destructor -> ataqueDestructor : <<create>> AtaqueConMisiles(cantidad=5,puntajePorUnidad=1)
+
+create participant "unEscudoFenix :Fenix" as escudoFenix
+
+destructor -> escudoFenix : <<create>> Fenix()
+
+
+deactivate destructor
+
+create participant "unAcorazado: Acorazado" as acorazado
+
+Test02 -> acorazado : <<create>> Acorazado()
+
+create participant "ataqueAcorazado: AtaqueAcorazado" as ataqueAcorazado
+activate acorazado
+acorazado -> ataqueAcorazado : <<create>> AtaqueAcorazado(cantProyectiles = 10 , puntosPorProyectil = 5)
+create participant "escudoIonico : Ionico" as escudoIonico
+acorazado -> escudoIonico : <<create>> Ionico(ataqueAcorazado)
+deactivate acorazado
+
+
+create participant "unaFlota: Flota" as flota 
+Test02 -> flota : <<create>> Flota([unAcorazado,unaCorbeta,unDestructor])
+
+
+
+
+
+@enduml    

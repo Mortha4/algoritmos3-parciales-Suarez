@@ -1,0 +1,43 @@
+@startuml  
+
+actor Test02
+activate Test02
+
+participant "unaGranja : GranjeDeOrson" as granja
+participant ":Animal" as animal
+participant ":Habilidad" as habilidad 
+
+Test02 -> granja : calcularEnergia()
+activate granja
+
+loop por cada animal que pertenece a la granja
+granja -> animal : calcularEnergia()
+
+
+activate animal
+loop por cada habilidad que pertence al animal
+animal -> habilidad : calcularEnergia()
+activate habilidad
+habilidad --> animal : energiaHabilidad
+deactivate habilidad
+end
+animal --> granja : energiaAnimal
+deactivate animal
+end
+granja --> Test02 : energiaGranja
+deactivate granja
+deactivate Test02
+
+
+
+
+
+
+
+
+
+
+
+
+
+@enduml

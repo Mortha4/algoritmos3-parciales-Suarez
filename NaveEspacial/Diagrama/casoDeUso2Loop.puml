@@ -1,0 +1,45 @@
+@startuml
+
+actor Test02
+activate Test02
+
+
+participant "unaFLota:Flota" as flota
+participant ":Nave" as nave
+participant ":sistemaDeAtaque" as ataque
+participant ":Escudo" as escudo
+
+Test02 -> flota : calcularPuntaje()
+activate flota
+
+
+loop Para cada Nave 
+flota -> nave : calcularPuntaje()
+
+activate nave
+nave -> ataque: calcularPuntaje()
+
+activate ataque
+ataque --> nave : puntosAtaque
+deactivate ataque
+
+nave -> escudo: calcularPuntaje()
+activate escudo
+escudo --> nave : puntosEscudo
+deactivate escudo
+
+nave --> flota : puntosNave = puntosAtaque + puntosEscudo
+end
+flota --> Test02 : puntosFLota
+ 
+
+
+
+
+
+
+
+
+
+
+@enduml

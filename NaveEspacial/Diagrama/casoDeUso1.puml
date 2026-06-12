@@ -1,0 +1,92 @@
+@startuml   
+
+
+actor Test01
+activate Test01
+
+create participant "unAcorazado :Acorazado" as acorazado
+
+Test01 -> acorazado : <<create>> Acorazado()
+
+create participant "ataqueAcorazado : AtaqueAcorazado" as ataqueAcorazado
+activate acorazado
+acorazado -> ataqueAcorazado : <<create>> AtaqueAcorazado(cantProyectiles = 10 , puntosPorProyectil = 5)
+
+create participant "escudoIonico : Ionico" as escudoIonico
+acorazado -> escudoIonico : <<create>> Ionico(ataqueAcorazado)
+deactivate acorazado
+
+Test01 -> acorazado : disparar()
+activate acorazado
+acorazado -> ataqueAcorazado : disparar()
+activate ataqueAcorazado
+deactivate ataqueAcorazado
+deactivate acorazado
+Test01 -> acorazado : disparar()
+activate acorazado
+acorazado -> ataqueAcorazado : disparar()
+activate ataqueAcorazado
+deactivate ataqueAcorazado
+deactivate acorazado
+
+note right
+    "metodo dentro de la clase 
+    AtaqueAcorazado"
+
+    disparar(){
+        cantidadProyectiles -= 1 ;
+        
+    }
+end note
+
+
+
+
+
+
+
+Test01 -> acorazado : calcularPuntaje()
+activate acorazado
+acorazado -> ataqueAcorazado : calcularPuntaje()
+activate ataqueAcorazado
+ataqueAcorazado --> acorazado : puntajeAtaque = 130
+deactivate ataqueAcorazado
+
+acorazado -> escudoIonico : calcularPuntaje()
+activate escudoIonico 
+escudoIonico -> ataqueAcorazado : calcularPuntuje()
+activate ataqueAcorazado
+ataqueAcorazado --> escudoIonico : puntajeEscudo = puntajeAtaque = 130
+deactivate ataqueAcorazado
+escudoIonico --> acorazado : puntajeEscudo = 130
+deactivate escudoIonico
+
+note right
+    "El puntaje escudo multiplica x2 
+    el puntaje actual de ataque , 
+    por ende es lo mismo decir que 
+    suma puntaje ataque"
+
+    calcularPuntaje(){
+    
+        return ataqueAcorazado.calcularPuntaje();
+    
+    }
+
+
+end note
+
+acorazado --> Test01 : puntajeAcorazado = puntajeAtaque + puntajeEscudo = 130 + 130
+deactivate Test01
+
+
+
+
+
+
+
+
+
+
+@enduml  
+

@@ -10,20 +10,44 @@ create participant "unChancho : ChanchoVolador" as chancho1
 test01 -> chancho1 : <<create>> ChanchoVolador()
 create participant "habilidadVolar : Volar" as volarChancho
 activate chancho1
-chancho1 -> volarChancho : <<create>> Volar(costo = 8 , veces =10)
+chancho1 -> volarChancho : <<create>> Volar(costoPorAccion = 8 , cantidadAcciones =10)
 deactivate chancho1
 
 
    
-test01 -> chancho1 : usarHabilidad(volar,2)
+test01 -> chancho1 : usarHabilidad(habilidad = 0,veces = 2)
 activate chancho1
-chancho1 -> volarChancho: accion(2)
+chancho1 -> volarChancho: accion(veces = 2)
 activate volarChancho
-test01 -> chancho1 : calcularEnergia()
-chancho1 -> volarChancho : calcularEnergia()
-volarChancho --> chancho1 : energiaChancho = movimientoDisponible * costo
+deactivate chancho1
 deactivate volarChancho
-chancho1 --> test01 : energiaChancho
+
+note right
+    realiza la habilidad "0" que en este caso es volar
+
+    usarHabilidad(0,2){
+        this.habilidades.get(0).accion(2)
+    }
+
+    Accion(2){
+        movimientoDisponible -= veces;
+    }
+end note
+
+
+
+
+
+test01 -> chancho1 : calcularEnergia()
+activate chancho1
+deactivate volarChancho
+chancho1 -> volarChancho : calcularEnergia()
+
+
+activate volarChancho
+volarChancho --> chancho1 : energiaChancho = movimientoDisponible * costo = 8 * 8 
+deactivate volarChancho 
+chancho1 --> test01 : energiaChancho = 64
 deactivate chancho1
 deactivate test01
 
