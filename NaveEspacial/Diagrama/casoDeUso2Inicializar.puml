@@ -8,8 +8,8 @@ Test02 -> corbeta : <<create>> Corbeta()
 create participant "unEscudoSimple: Simple" as escudoSimple
 activate corbeta
 corbeta -> escudoSimple : <<create>> Simple()
-create participant "ataqueMisiles :AtaqueConMisiles" as ataqueCorbeta
-corbeta -> ataqueCorbeta : <<create>> AtaqueConMisiles(cantidad=3 ,puntajePorUnidad=10)
+create participant "ataqueMisiles :Misil" as ataqueCorbeta
+corbeta -> ataqueCorbeta : <<create>> Misil(cantidad=3 ,puntajePorUnidad=10)
 
 deactivate corbeta
 
@@ -18,9 +18,9 @@ Test02 -> destructor : <<create>> Destructor()
 
 activate destructor
 
-create participant "ataqueMisiles2 :AtaqueConMisiles" as ataqueDestructor
+create participant "ataqueMisiles2 :Misil" as ataqueDestructor
 
-destructor -> ataqueDestructor : <<create>> AtaqueConMisiles(cantidad=5,puntajePorUnidad=1)
+destructor -> ataqueDestructor : <<create>> Misil(cantidad=5,puntajePorUnidad=1)
 
 create participant "unEscudoFenix :Fenix" as escudoFenix
 
@@ -29,15 +29,22 @@ destructor -> escudoFenix : <<create>> Fenix()
 
 deactivate destructor
 
+
 create participant "unAcorazado: Acorazado" as acorazado
-
 Test02 -> acorazado : <<create>> Acorazado()
-
-create participant "ataqueAcorazado: AtaqueAcorazado" as ataqueAcorazado
+create participant "bombaNeutron : BombaNeutron" as bomba
 activate acorazado
-acorazado -> ataqueAcorazado : <<create>> AtaqueAcorazado(cantProyectiles = 10 , puntosPorProyectil = 5)
+acorazado -> bomba : <<create>> Misil(cantArma = 10 , puntosPorArma = 5)
+
+
+create participant "torretaIonica : TorretaIonica" as torreta
+acorazado -> torreta : <<create>> TorretaIonica(bombaNeutron)
+
+
+
+
 create participant "escudoIonico : Ionico" as escudoIonico
-acorazado -> escudoIonico : <<create>> Ionico(ataqueAcorazado)
+acorazado -> escudoIonico : <<create>> Ionico(torretaIonica)
 deactivate acorazado
 
 

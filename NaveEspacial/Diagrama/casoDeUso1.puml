@@ -8,34 +8,87 @@ create participant "unAcorazado :Acorazado" as acorazado
 
 Test01 -> acorazado : <<create>> Acorazado()
 
-create participant "ataqueAcorazado : AtaqueAcorazado" as ataqueAcorazado
+create participant "bombaNeutron : BombaNeutron" as bomba
 activate acorazado
-acorazado -> ataqueAcorazado : <<create>> AtaqueAcorazado(cantProyectiles = 10 , puntosPorProyectil = 5)
+acorazado -> bomba : <<create>> Misil(cantArma = 10 , puntosPorArma = 5)
+
+
+create participant "torretaIonica : TorretaIonica" as torreta
+acorazado -> torreta : <<create>> TorretaIonica(bombaNeutron)
+
+
+
 
 create participant "escudoIonico : Ionico" as escudoIonico
-acorazado -> escudoIonico : <<create>> Ionico(ataqueAcorazado)
+acorazado -> escudoIonico : <<create>> Ionico(torretaIonica)
 deactivate acorazado
 
 Test01 -> acorazado : disparar()
 activate acorazado
-acorazado -> ataqueAcorazado : disparar()
-activate ataqueAcorazado
-deactivate ataqueAcorazado
+acorazado -> torreta : disparar()
+activate torreta
+torreta -> bomba : disparar()
+activate bomba 
+deactivate bomba
+deactivate torreta
 deactivate acorazado
+
+
 Test01 -> acorazado : disparar()
 activate acorazado
-acorazado -> ataqueAcorazado : disparar()
-activate ataqueAcorazado
-deactivate ataqueAcorazado
+acorazado -> torreta : disparar()
+activate torreta
+torreta -> bomba : disparar()
+activate bomba 
+deactivate bomba
+deactivate torreta
 deactivate acorazado
 
 note right
     "metodo dentro de la clase 
-    AtaqueAcorazado"
+    TorretaIonica"
 
     disparar(){
-        cantidadProyectiles -= 1 ;
-        
+        this.bombasGastadas += 1
+        bombaNeutron.disparar() ;
+    }
+
+    "metodo dentro de la 
+    clase Bomba"
+
+    disparar(){
+        this.cantidadBombas -=1
+    }
+
+end note
+
+
+
+
+Test01 -> acorazado : calcularPuntaje()
+activate acorazado
+acorazado -> torreta : calcularPuntaje()
+
+activate torreta
+torreta -> bomba : bombasNecesarias()
+activate bomba
+bomba --> torreta : false
+torreta -> bomba : calcularPuntaje()
+bomba --> torreta : puntajeBomba = cantArma * puntosPorArma = 40
+deactivate bomba
+torreta --> acorazado : puntajeAtaque = puntajeBomba + puntajeTorreta  = 130 
+deactivate torreta
+
+note right
+
+"metodo en torreta"
+
+    calcularPuntaje(){
+        if(bombaNeutron.bombasNecesarias){
+            return puntosTorreta + (bombaNeutron.calcularPuntaje())
+        }else{
+            return (puntosTorreta-bombasGastadas*10) + bombaNeutron.calcularPuntaje()
+        }
     }
 end note
 
@@ -43,22 +96,23 @@ end note
 
 
 
-
-
-Test01 -> acorazado : calcularPuntaje()
-activate acorazado
-acorazado -> ataqueAcorazado : calcularPuntaje()
-activate ataqueAcorazado
-ataqueAcorazado --> acorazado : puntajeAtaque = 130
-deactivate ataqueAcorazado
-
 acorazado -> escudoIonico : calcularPuntaje()
-activate escudoIonico 
-escudoIonico -> ataqueAcorazado : calcularPuntuje()
-activate ataqueAcorazado
-ataqueAcorazado --> escudoIonico : puntajeEscudo = puntajeAtaque = 130
-deactivate ataqueAcorazado
-escudoIonico --> acorazado : puntajeEscudo = 130
+activate escudoIonico
+escudoIonico -> torreta : calcularPuntaje()
+
+activate torreta
+torreta -> bomba : bombasNecesarias()
+activate bomba
+bomba --> torreta : false
+torreta -> bomba : calcularPuntaje()
+bomba --> torreta : puntajeBomba = cantArma * puntosPorArma = 40
+deactivate bomba
+torreta --> escudoIonico : puntajeAtaque = puntajeBomba + puntajeTorreta  = 130 
+deactivate torreta
+
+
+
+escudoIonico --> acorazado : puntajeEscudo = puntajeAtaque = 130
 deactivate escudoIonico
 
 note right
@@ -69,7 +123,7 @@ note right
 
     calcularPuntaje(){
     
-        return ataqueAcorazado.calcularPuntaje();
+        return torretaIonica.calcularPuntaje();
     
     }
 

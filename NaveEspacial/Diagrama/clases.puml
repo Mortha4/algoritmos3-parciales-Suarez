@@ -10,12 +10,14 @@ class Flota{
 
 class Acorazado{
 
+    +Acorazado()
     +calcularPuntaje() :int 
     +disparar()
 }
 
 class Corbeta {
 
+    +Corbeta()
     +calcularPuntaje() :int 
     +disparar()
 
@@ -38,28 +40,42 @@ abstract class Nave{
 }
 
 abstract class SistemaDeAtaque{
-    #cantidadProyectiles : int
-    #puntosPorProyectil : int
+    #cantidadArma : int
+    #puntosPorArma : int
 
     +calcularPuntaje() : int
     +disparar()
 }
 
-class AtaqueAcorazado{
+class BombaNeutron{
 
-    +AtaqueAcorazado(cantProyectil : int , puntosPorProyectil : int)
+    +BombaNeutron(cantArma : int , puntosPorArma : int)
+    +bombasNecesarias() : boolean
     +calcularPuntaje() : int
     +disparar() 
 
+
 }
 
-class AtaqueConMisiles{
+class Misil{
 
-    +AtaqueConMisiles(cantProyectil : int , puntosPorProyectil : int)
+    +Misil(cantArma : int , puntosPorArma : int)
     +calcularPuntaje() : int
     +disparar()
 
 }
+
+class TorretaIonica{
+    -bombasGastadas :int
+    -bombas : BombaNeutron
+
+    +TorretaIonica(bombas : BombaNeutron)
+    +calcularPuntaje() : int
+    +disparar()
+
+}
+
+
 
 
 
@@ -76,19 +92,28 @@ class Ionico{
 }
 
 class Fenix{
+    -dañoRecibido :int
+
     +calcularPuntaje() : int
+    +recibirDaño();
 
 }
 
 class Simple{
+    -dañoRecibido :int
+    
     +calcularPuntaje() : int
-
-
+    +recibirDaño();
 
 }
 
-AtaqueAcorazado --|> SistemaDeAtaque
-AtaqueConMisiles --|> SistemaDeAtaque
+interface Dañable{
+    recibirDaño();
+}
+
+TorretaIonica --|> SistemaDeAtaque
+BombaNeutron --|> SistemaDeAtaque
+Misil --|> SistemaDeAtaque
 Escudo --|> Ionico
 Escudo --|> Fenix
 Escudo --|> Simple
@@ -97,10 +122,13 @@ Destructor --|> Nave
 Corbeta --|> Nave
 Acorazado --|> Nave
 
-Nave -> SistemaDeAtaque
+Nave "1" o-- "*" SistemaDeAtaque
 Nave -> Escudo
 
 Flota "1" o-- "*" Nave
+
+Fenix ..|> Dañable
+Simple ..|> Dañable
 
 
 
